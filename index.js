@@ -1,18 +1,19 @@
 const bodyParser = require('body-parser');
-const url = require('url');
-const path = require('path');
 const express = require('express');
-
+const cors = require('cors');
 const app = express(); 
 
 var http = require('http');
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const port = 8000;
+  
+app.use(cors());
 
 
-const port = 8000
-
-app.get('/', (req, res) => res.send('Hello World!'));
-
-
+//API to fetch the cities based on the country selected by the user. The country is passed through the query params.
 app.get('/fetchCitiesForCountry/:country',function(req,res){
     var country = req.params.country;
      var out = {
@@ -31,9 +32,12 @@ app.get('/fetchCitiesForCountry/:country',function(req,res){
      }
  });
 
+ //API to post the form data
  app.post('/submitForm', function (req, res) {
     var body = req.body;
-    console.log(req);
+//posting the data to the db if any db exists.
+//based on the callback function of posting the data, the failure of the form submission can be shown as an error. Not handling that case as there is no error case here.
+console.log(req.body);
     res.end();
 });
 
